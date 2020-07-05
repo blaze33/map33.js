@@ -5,11 +5,13 @@ import {
   Mesh,
   MeshPhongMaterial,
   MeshNormalMaterial,
+  TextureLoader,
 } from 'three'
 
 // const tileMaterial = new MeshPhongMaterial({wireframe: false})
 const tileMaterial = new MeshNormalMaterial({wireframe: false})
 const baseTileSize = 500.
+const loader = new TextureLoader()
 
 class Utils {
   static long2tile (lon, zoom) {
@@ -75,6 +77,10 @@ class Tile {
     return `${this.baseURL}/${this.z}/${this.x}/${this.y}.png`;
   }
 
+  mapUrl() {
+    return `https://c.tile.openstreetmap.org/${this.z}/${this.x}/${this.y}.png`
+  }
+
   computeElevation(pixels) {
     this.shape = pixels.shape;
     const elevation = new Float32Array(pixels.shape[0] * pixels.shape[1]);
@@ -126,8 +132,13 @@ class Tile {
     this.geometry = geometry;
   }
 
+  buildMaterial() {
+    return new MeshPhongMaterial({map: loader.load(this.mapUrl())})
+    // return new MeshNormalMaterial()
+  }
+
   buildmesh() {
-    this.mesh = new Mesh(this.geometry, tileMaterial);
+    this.mesh = new Mesh(this.geometry, this.buildMaterial());
   }
 
   fetch() {
