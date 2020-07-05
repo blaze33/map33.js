@@ -6,6 +6,7 @@ import {
   MeshPhongMaterial,
   MeshNormalMaterial,
   TextureLoader,
+  Vector3
 } from 'three'
 
 // const tileMaterial = new MeshPhongMaterial({wireframe: false})
@@ -49,6 +50,43 @@ class Utils {
 
   static position2tile(z, x, y, center, tilesize) {
 
+  }
+}
+
+class MapPicker {
+  constructor(camera, map, domElement) {
+    this.vec = new Vector3(); // create once and reuse
+    this.position = new Vector3(); // create once and reuse
+    this.camera = camera
+    this.map = map
+    this.domElement = domElement
+
+    this.domElement.addEventListener('mousemove', this.onMouseMove.bind(this))
+    this.domElement.addEventListener('click', this.onMouseClick.bind(this))
+  }
+
+  computeWorldPosition(event) {
+    // cf. https://stackoverflow.com/a/13091694/343834
+    this.vec.set(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1,
+      0.5);
+
+    this.vec.unproject(this.camera);
+
+    this.vec.sub(this.camera.position).normalize();
+
+    var distance = -this.camera.position.z / this.vec.z;
+
+    this.position.copy(this.camera.position).add(this.vec.multiplyScalar(distance));
+  }
+
+  onMouseMove(event) {
+    this.computeWorldPosition(event)
+  }
+
+  onMouseClick(event) {
+    this.computeWorldPosition(event)
   }
 }
 
@@ -96,7 +134,6 @@ class Tile {
       }
     }
     this.elevation = elevation;
-    console.log({ elevation });
   }
 
   buildGeometry() {
@@ -108,7 +145,6 @@ class Tile {
     );
     const nPosition = Math.sqrt(geometry.attributes.position.count);
     const nElevation = Math.sqrt(this.elevation.length);
-    console.log({ nPosition, nElevation });
     const ratio = nElevation / (nPosition - 1);
     let x, y;
     for (
@@ -133,7 +169,8 @@ class Tile {
   }
 
   buildMaterial() {
-    return new MeshPhongMaterial({map: loader.load(this.mapUrl())})
+    const map = loader.load(this.mapUrl())
+    return new MeshPhongMaterial({map})
     // return new MeshNormalMaterial()
   }
 
@@ -217,7 +254,6 @@ class Tile {
     }
     this.mesh.geometry.attributes.position.needsUpdate = true;
     this.mesh.geometry.computeVertexNormals();
-    console.log(this.mesh.geometry.attributes.position)
   }
 }
 
@@ -267,4 +303,4 @@ class Map {
   }
 }
 
-export default Map
+export {Map, MapPicker}

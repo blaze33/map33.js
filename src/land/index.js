@@ -29,6 +29,7 @@ import {
   MeshStandardMaterial,
   AmbientLight,
   DirectionalLight,
+  AxesHelper
 } from "three";
 // import * as THREE from 'three'
 import {
@@ -39,7 +40,7 @@ import ThreeGeo from "three-geo/src";
 
 import InfiniteGridHelper from "./three.modules/InfiniteGridHelper";
 
-import Map from './map'
+import {Map, MapPicker} from './map'
 
 // global.THREE = THREE
 const scene = new Scene();
@@ -70,6 +71,10 @@ var renderer = new WebGLRenderer({
   logarithmicDepthBuffer: false,
 });
 
+window.scene = scene
+window.camera = camera
+window.renderer = renderer
+
 renderer.outputEncoding = LinearEncoding;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.bias = 0.001;
@@ -86,6 +91,9 @@ document.body.appendChild(stats.dom);
 
 const controls = new MapControls(camera, renderer.domElement);
 window.controls = controls
+
+var axesHelper = new AxesHelper(2000)
+scene.add(axesHelper)
 
 scene.background = new Color(0x91abb5);
 scene.fog = new FogExp2(0x91abb5, 0.0000001);
@@ -184,6 +192,7 @@ let position = [45.916216, 6.860973];
 window.tgeo = tgeo
 
 const map = new Map(scene, camera, position, 4)
+const mapPicker = new MapPicker(camera, map, renderer.domElement)
 console.log(map)
 
 let lastTimestamp = 0;
