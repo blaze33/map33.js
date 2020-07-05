@@ -76,7 +76,7 @@ renderer.shadowMap.bias = 0.001;
 renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.shadowMap.autoUpdate = true;
 renderer.physicallyCorrectLights = true;
-renderer.toneMapping = ACESFilmicToneMapping;
+// renderer.toneMapping = ACESFilmicToneMapping;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -85,12 +85,13 @@ const stats = new Stats();
 document.body.appendChild(stats.dom);
 
 const controls = new MapControls(camera, renderer.domElement);
+window.controls = controls
 
 scene.background = new Color(0x91abb5);
 scene.fog = new FogExp2(0x91abb5, 0.0000001);
 
 const ambientLight = new AmbientLight(0x404040, 2.5) // soft white light
-const dirLight = new DirectionalLight(0xffffff, 4)
+const dirLight = new DirectionalLight(0xffffff, 3.5)
 dirLight.castShadow = true
 dirLight.position.set(10000, 10000, 10000)
 scene.add(ambientLight)
@@ -192,6 +193,8 @@ var mainLoop = (timestamp) => {
   lastTimestamp = timestamp;
 
   renderer.render(scene, camera);
+
+  controls.update()
 
   stats.update();
 };
