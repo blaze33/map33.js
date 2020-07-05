@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dem2mesh": "^0.1.2",
+    "get-pixels": "^3.3.2",
+    "ndarray": "^1.0.19",
+    "stats.js": "^0.17.0",
+    "three": "0.118.3",
+    "three-geo": "w3reality/three-geo#13b47fbcbf15fea043d6b8dceaeeccee2ef984a2"
+  },
+  "devDependencies": {
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -44,6 +52,8 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
+    "prettier": "^2.0.5",
+    "prettier-loader": "^3.3.0",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.1",
