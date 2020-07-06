@@ -181,13 +181,18 @@ class Tile {
   }
 
   buildMaterial() {
-    const map = loader.load(this.mapUrlMapbox())
-    return new MeshPhongMaterial({map})
+    return new Promise((resolve, reject) => {
+      loader.load(this.mapUrlMapbox(), map => resolve(new MeshPhongMaterial({
+        map
+      })))
+    })
     // return new MeshNormalMaterial()
   }
 
   buildmesh() {
-    this.mesh = new Mesh(this.geometry, this.buildMaterial());
+    return this.buildMaterial().then(material => {
+      this.mesh = new Mesh(this.geometry, material);
+    })
   }
 
   fetch() {
@@ -196,8 +201,7 @@ class Tile {
         if (err) console.error(err);
         this.computeElevation(pixels);
         this.buildGeometry();
-        this.buildmesh();
-        resolve(this);
+        this.buildmesh().then(() => resolve(this))
       });
     });
   }
