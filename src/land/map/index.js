@@ -152,8 +152,8 @@ class Tile {
     const geometry = new PlaneBufferGeometry(
       this.size,
       this.size,
-      this.shape[0],
-      this.shape[1]
+      this.shape[0] / 2,
+      this.shape[1] / 2
     );
     const nPosition = Math.sqrt(geometry.attributes.position.count);
     const nElevation = Math.sqrt(this.elevation.length);
