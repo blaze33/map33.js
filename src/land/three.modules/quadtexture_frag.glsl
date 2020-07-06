@@ -1,4 +1,3 @@
-export default /* glsl */`
 #define PHONG
 
 uniform vec3 diffuse;
@@ -6,6 +5,13 @@ uniform vec3 emissive;
 uniform vec3 specular;
 uniform float shininess;
 uniform float opacity;
+
+// ####### custom uniforms #########
+uniform sampler2D mapNW;
+uniform sampler2D mapSW;
+uniform sampler2D mapNE;
+uniform sampler2D mapSE;
+// #################################
 
 #include <common>
 #include <packing>
@@ -41,7 +47,18 @@ void main() {
 	vec3 totalEmissiveRadiance = emissive;
 
 	#include <logdepthbuf_fragment>
-	#include <map_fragment>
+
+  #ifdef USE_MAP
+
+  vec4 texelColor = texture2D(mapNW, vUv);
+  // vec4 texelColor = vec4(vUv, vUv);
+
+
+  // texelColor = mapTexelToLinear(texelColor);
+  diffuseColor *= texelColor;
+
+  #endif
+
 	#include <color_fragment>
 	#include <alphamap_fragment>
 	#include <alphatest_fragment>
@@ -72,4 +89,3 @@ void main() {
 	#include <dithering_fragment>
 
 }
-`;
