@@ -193,7 +193,7 @@ let position = [45.916216, 6.860973];
 // });
 window.tgeo = tgeo
 
-const map = new Map(scene, camera, position, 4)
+const map = new Map(scene, camera, position, 4, 11)
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
 console.log(map)
 
