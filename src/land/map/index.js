@@ -48,8 +48,12 @@ class Utils {
     }
   }
 
-  static position2tile(z, x, y, center, tilesize) {
-
+  static position2tile(z, x, y, center, tileSize) {
+    const centerPosition = Utils.tile2position(z, center.x, center.y, center, tileSize)
+    console.log(centerPosition)
+    const deltaX = Math.round((x - centerPosition.x) / tileSize)
+    const deltaY = Math.round(-(y - centerPosition.y) / tileSize)
+    return {x: deltaX + center.x, y: deltaY + center.y, z}
   }
 }
 
