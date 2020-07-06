@@ -56,8 +56,8 @@ camera.up = new Vector3(0, 0, 1);
 // camera.position.set(-70, -475, 275)
 // // camera.position.set(170, -500, 180)
 // camera.lookAt(0, 0, 0)
-camera.position.set(-500, 700, 1200);
-camera.lookAt(0, -400, 0);
+camera.position.set(0, -700, 1200);
+camera.lookAt(0, 0, 0);
 camera.rollAngle = 0;
 camera.userData = {
   terrainKeysUnder: [],

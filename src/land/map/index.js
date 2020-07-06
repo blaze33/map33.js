@@ -86,23 +86,26 @@ class MapPicker {
   }
 
   onMouseMove(event) {
-    this.computeWorldPosition(event)
+    // this.computeWorldPosition(event)
   }
 
   onMouseClick(event) {
     this.computeWorldPosition(event)
+    this.map.addFromPosition(this.position.x, this.position.y)
   }
 }
 
 class Tile {
-  constructor(z, x, y) {
-    this.size = baseTileSize;
+  constructor(z, x, y, size=baseTileSize) {
+    this.size = size;
     this.z = z;
     this.x = x;
     this.y = y;
     this.baseURL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium";
     this.shape = null;
     this.elevation = null;
+    this.seamX = false
+    this.seamY = false
   }
 
   key() {
@@ -209,12 +212,9 @@ class Tile {
       console.error(
         "resolveSeamY only implemented for geometries of same size"
       );
+      return
     }
     for (let i = tPosition - nPosition; i < tPosition; i++) {
-      // if (i % nPosition === 0 || i % nPosition === nPosition - 1) continue;
-      // if (i % nPosition === nPosition - 1) continue;
-      // x = Math.floor(i / nPosition);
-      // y = i % nPosition;
       this.mesh.geometry.attributes.position.setZ(
         i,
         neighbor.mesh.geometry.attributes.position.getZ(
@@ -234,12 +234,9 @@ class Tile {
       console.error(
         "resolveSeamX only implemented for geometries of same size"
       );
+      return
     }
     for (let i = nPosition - 1; i < tPosition; i += nPosition) {
-      // if (i % nPosition === 0 || i % nPosition === nPosition - 1) continue;
-      // if (i % nPosition === nPosition - 1) continue;
-      // x = Math.floor(i / nPosition);
-      // y = i % nPosition;
       this.mesh.geometry.attributes.position.setZ(
         i,
         neighbor.mesh.geometry.attributes.position.getZ(
@@ -250,14 +247,23 @@ class Tile {
   }
 
   resolveSeams(cache) {
-    if (this.keyNeighY() in cache) {
-      this.resolveSeamY(cache[this.keyNeighY()]);
+    let worked = false
+    const neighY = cache[this.keyNeighY()]
+    const neighX = cache[this.keyNeighX()]
+    if (this.seamY === false && neighY && neighY.mesh) {
+      this.resolveSeamY(neighY);
+      this.seamY = true
+      worked = true
     }
-    if (this.keyNeighX() in cache) {
-      this.resolveSeamX(cache[this.keyNeighX()]);
+    if (this.seamX === false && neighX && neighX.mesh) {
+      this.resolveSeamX(neighX);
+      this.seamX = true
+      worked = true
     }
-    this.mesh.geometry.attributes.position.needsUpdate = true;
-    this.mesh.geometry.computeVertexNormals();
+    if (worked) {
+      this.mesh.geometry.attributes.position.needsUpdate = true;
+      this.mesh.geometry.computeVertexNormals();
+    }
   }
 }
 
@@ -269,10 +275,9 @@ class Map {
     this.nTiles = nTiles
     this.zoom = zoom
     this.options = options
+    this.tileSize = baseTileSize
 
-    this.tiles = ndarray(new Array(nTiles ** 2), [nTiles, nTiles])
     this.tileCache = {};
-
 
     this.init()
   }
@@ -284,13 +289,13 @@ class Map {
 
     for (let i = 0; i < this.nTiles; i++) {
       for (let j = 0; j < this.nTiles; j++) {
-        this.tiles.set(i, j, new Tile(this.zoom, this.center.x + i - tileOffset, this.center.y + j - tileOffset))
+        const tile = new Tile(this.zoom, this.center.x + i - tileOffset, this.center.y + j - tileOffset)
+        this.tileCache[tile.key()] = tile
       }
     }
 
-    const promises = this.tiles.data.map(tile =>
+    const promises = Object.values(this.tileCache).map(tile =>
       tile.fetch().then(tile => {
-        this.tileCache[tile.key()] = tile
         tile.setPosition(this.center)
         this.scene.add(tile.mesh)
         return tile
@@ -298,11 +303,32 @@ class Map {
     )
 
     Promise.all(promises).then(tiles => {
-      tiles.reverse().forEach(tile => {
+      tiles.reverse().forEach(tile => {  // reverse to avoid seams artifacts
         tile.resolveSeams(this.tileCache)
       })
-      // tiles[0].resolveSeams(this.tileCache)
     })
+
+  }
+
+  addFromPosition(posX, posY) {
+    const {
+      x,
+      y,
+      z
+    } = Utils.position2tile(this.zoom, posX, posY, this.center, this.tileSize)
+    console.log({x, y, z})
+    const tile = new Tile(this.zoom, x, y)
+
+    if (tile.key() in this.tileCache) return
+
+    this.tileCache[tile.key()] = tile
+    tile.fetch().then(tile => {
+      tile.setPosition(this.center)
+      this.scene.add(tile.mesh)
+    }).then(() => {
+      Object.values(this.tileCache).forEach(tile => tile.resolveSeams(this.tileCache))
+    })
+
 
   }
 }
