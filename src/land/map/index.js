@@ -10,7 +10,7 @@ import {
 } from 'three'
 
 // const tileMaterial = new MeshPhongMaterial({wireframe: false})
-const tileMaterial = new MeshNormalMaterial({wireframe: false})
+const tileMaterial = new MeshNormalMaterial({wireframe: true})
 const baseTileSize = 500.
 const loader = new TextureLoader()
 
@@ -190,9 +190,10 @@ class Tile {
   }
 
   buildmesh() {
-    return this.buildMaterial().then(material => {
-      this.mesh = new Mesh(this.geometry, material);
+    this.buildMaterial().then(material => {
+      this.mesh.material = material
     })
+    this.mesh = new Mesh(this.geometry, tileMaterial)
   }
 
   fetch() {
@@ -201,7 +202,8 @@ class Tile {
         if (err) console.error(err);
         this.computeElevation(pixels);
         this.buildGeometry();
-        this.buildmesh().then(() => resolve(this))
+        this.buildmesh()
+        resolve(this)
       });
     });
   }
