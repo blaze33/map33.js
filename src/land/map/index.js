@@ -66,7 +66,7 @@ class MapPicker {
     this.domElement = domElement
 
     this.domElement.addEventListener('mousemove', this.onMouseMove.bind(this))
-    this.domElement.addEventListener('click', this.onMouseClick.bind(this))
+    this.domElement.addEventListener('dblclick', this.onMouseClick.bind(this))
   }
 
   computeWorldPosition(event) {
