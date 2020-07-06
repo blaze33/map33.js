@@ -42,6 +42,8 @@ import InfiniteGridHelper from "./three.modules/InfiniteGridHelper";
 
 import {Map, MapPicker} from './map'
 
+import {WindowResize} from './three.modules/WindowResize'
+
 // global.THREE = THREE
 const scene = new Scene();
 const camera = new PerspectiveCamera(
@@ -209,3 +211,5 @@ var mainLoop = (timestamp) => {
 };
 
 mainLoop(0);
+
+WindowResize(renderer, camera)
