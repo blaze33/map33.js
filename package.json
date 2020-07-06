@@ -5,10 +5,8 @@
   "dependencies": {
     "dem2mesh": "^0.1.2",
     "get-pixels": "^3.3.2",
-    "ndarray": "^1.0.19",
     "stats.js": "^0.17.0",
-    "three": "0.118.3",
-    "three-geo": "w3reality/three-geo#13b47fbcbf15fea043d6b8dceaeeccee2ef984a2"
+    "three": "0.118.3"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
