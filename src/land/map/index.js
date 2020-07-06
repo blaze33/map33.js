@@ -106,6 +106,7 @@ class Tile {
     this.elevation = null;
     this.seamX = false
     this.seamY = false
+    this.mapboxToken = 'pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w'
   }
 
   key() {
@@ -122,8 +123,12 @@ class Tile {
     return `${this.baseURL}/${this.z}/${this.x}/${this.y}.png`;
   }
 
-  mapUrl() {
+  mapUrlOSM() {
     return `https://c.tile.openstreetmap.org/${this.z}/${this.x}/${this.y}.png`
+  }
+
+  mapUrlMapbox() {
+    return `https://api.mapbox.com/v4/mapbox.satellite/${this.z}/${this.x}/${this.y}@2x.jpg80?access_token=${this.mapboxToken}`
   }
 
   computeElevation(pixels) {
@@ -176,7 +181,7 @@ class Tile {
   }
 
   buildMaterial() {
-    const map = loader.load(this.mapUrl())
+    const map = loader.load(this.mapUrlMapbox())
     return new MeshPhongMaterial({map})
     // return new MeshNormalMaterial()
   }
