@@ -296,7 +296,7 @@ class Map {
   init() {
     this.center = Utils.geo2tile(this.geoLocation, this.zoom)
     console.log({center: this.center})
-    const tileOffset = Math.round(this.nTiles / 2)
+    const tileOffset = Math.floor(this.nTiles / 2)
 
     for (let i = 0; i < this.nTiles; i++) {
       for (let j = 0; j < this.nTiles; j++) {
