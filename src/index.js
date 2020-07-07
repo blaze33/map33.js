@@ -3,7 +3,6 @@ import {
   PlaneBufferGeometry,
   Mesh,
   MeshNormalMaterial,
-  TextureLoader,
   Vector3,
 } from 'three'
 import QuadTextureMaterial from './material/QuadTextureMaterial'
