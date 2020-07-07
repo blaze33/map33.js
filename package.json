@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "bootstrap": "^4.5.0",
     "dem2mesh": "^0.1.2",
     "get-pixels": "^3.3.2",
     "raw-loader": "^4.0.1",
+    "react-bootstrap": "^1.1.0",
+    "react-popupbox": "^2.0.8",
     "stats.js": "^0.17.0",
+    "styled-components": "^5.1.1",
     "three": "0.118.3"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
