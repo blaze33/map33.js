@@ -1,7 +1,11 @@
 {
-  "name": "three.land2",
+  "name": "map33",
   "version": "0.1.0",
   "private": true,
+  "source": "src/index.js",
+  "main": "dist/map33.js",
+  "module": "dist/map33.module.js",
+  "unpkg": "dist/map33.umd.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
@@ -56,6 +60,7 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "microbundle": "^0.12.2",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
@@ -86,6 +91,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "bundle": "microbundle",
     "test": "node scripts/test.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
