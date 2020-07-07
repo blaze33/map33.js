@@ -96,31 +96,32 @@ class MapPicker {
 }
 
 class Tile {
-  constructor(z, x, y, size=baseTileSize) {
-    this.size = size;
-    this.z = z;
-    this.x = x;
-    this.y = y;
-    this.baseURL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium";
-    this.shape = null;
-    this.elevation = null;
+  constructor(z, x, y, size = baseTileSize) {
+    this.size = size
+    this.z = z
+    this.x = x
+    this.y = y
+    this.baseURL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium"
+    this.shape = null
+    this.elevation = null
     this.seamX = false
     this.seamY = false
-    this.mapboxToken = 'pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w'
+    this.mapboxToken =
+      "pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w"
   }
 
   key() {
-    return `${this.z}/${this.x}/${this.y}`;
+    return `${this.z}/${this.x}/${this.y}`
   }
   keyNeighX() {
-    return `${this.z}/${this.x + 1}/${this.y}`;
+    return `${this.z}/${this.x + 1}/${this.y}`
   }
   keyNeighY() {
-    return `${this.z}/${this.x}/${this.y + 1}`;
+    return `${this.z}/${this.x}/${this.y + 1}`
   }
 
   url() {
-    return `${this.baseURL}/${this.z}/${this.x}/${this.y}.png`;
+    return `${this.baseURL}/${this.z}/${this.x}/${this.y}.png`
   }
 
   mapUrlOSM() {
@@ -132,20 +133,20 @@ class Tile {
   }
 
   computeElevation(pixels) {
-    this.shape = pixels.shape;
-    const elevation = new Float32Array(pixels.shape[0] * pixels.shape[1]);
+    this.shape = pixels.shape
+    const elevation = new Float32Array(pixels.shape[0] * pixels.shape[1])
     for (let i = 0; i < pixels.shape[0]; i++) {
       for (let j = 0; j < pixels.shape[1]; j++) {
-        const ij = i + pixels.shape[0] * j;
-        const rgba = ij * 4;
+        const ij = i + pixels.shape[0] * j
+        const rgba = ij * 4
         elevation[ij] =
           pixels.data[rgba] * 256.0 +
           pixels.data[rgba + 1] +
           pixels.data[rgba + 2] / 256.0 -
-          32768.0;
+          32768.0
       }
     }
-    this.elevation = elevation;
+    this.elevation = elevation
   }
 
   buildGeometry() {
@@ -154,11 +155,11 @@ class Tile {
       this.size,
       this.shape[0] / 2,
       this.shape[1] / 2
-    );
-    const nPosition = Math.sqrt(geometry.attributes.position.count);
-    const nElevation = Math.sqrt(this.elevation.length);
-    const ratio = nElevation / (nPosition - 1);
-    let x, y;
+    )
+    const nPosition = Math.sqrt(geometry.attributes.position.count)
+    const nElevation = Math.sqrt(this.elevation.length)
+    const ratio = nElevation / (nPosition - 1)
+    let x, y
     for (
       // let i = nPosition;
       let i = 0;
@@ -166,18 +167,18 @@ class Tile {
       i++
     ) {
       // if (i % nPosition === 0 || i % nPosition === nPosition - 1) continue;
-      if (i % nPosition === nPosition - 1) continue;
-      x = Math.floor(i / nPosition);
-      y = i % nPosition;
+      if (i % nPosition === nPosition - 1) continue
+      x = Math.floor(i / nPosition)
+      y = i % nPosition
       geometry.attributes.position.setZ(
         i,
         this.elevation[
           Math.round(Math.round(x * ratio) * nElevation + y * ratio)
         ] * 0.035
-      );
+      )
     }
-    geometry.computeVertexNormals();
-    this.geometry = geometry;
+    geometry.computeVertexNormals()
+    this.geometry = geometry
   }
 
   buildMaterial() {
@@ -190,7 +191,7 @@ class Tile {
   }
 
   buildmesh() {
-    this.buildMaterial().then(material => {
+    this.buildMaterial().then((material) => {
       this.mesh.material = material
     })
     this.mesh = new Mesh(this.geometry, tileMaterial)
@@ -199,30 +200,34 @@ class Tile {
   fetch() {
     return new Promise((resolve, reject) => {
       getPixels(this.url(), (err, pixels) => {
-        if (err) console.error(err);
-        this.computeElevation(pixels);
-        this.buildGeometry();
+        if (err) console.error(err)
+        this.computeElevation(pixels)
+        this.buildGeometry()
         this.buildmesh()
         resolve(this)
-      });
-    });
+      })
+    })
   }
 
   setPosition(center) {
-    const position = Utils.tile2position(this.z, this.x, this.y, center, this.size)
-    this.mesh.position.set(...Object.values(position));
+    const position = Utils.tile2position(
+      this.z,
+      this.x,
+      this.y,
+      center,
+      this.size
+    )
+    this.mesh.position.set(...Object.values(position))
   }
 
   resolveSeamY(neighbor) {
-    const tPosition = this.mesh.geometry.attributes.position.count;
-    const nPosition = Math.sqrt(tPosition);
+    const tPosition = this.mesh.geometry.attributes.position.count
+    const nPosition = Math.sqrt(tPosition)
     const nPositionN = Math.sqrt(
       neighbor.mesh.geometry.attributes.position.count
-    );
+    )
     if (nPosition !== nPositionN) {
-      console.error(
-        "resolveSeamY only implemented for geometries of same size"
-      );
+      console.error("resolveSeamY only implemented for geometries of same size")
       return
     }
     for (let i = tPosition - nPosition; i < tPosition; i++) {
@@ -231,28 +236,24 @@ class Tile {
         neighbor.mesh.geometry.attributes.position.getZ(
           i - (tPosition - nPosition)
         )
-      );
+      )
     }
   }
 
   resolveSeamX(neighbor) {
-    const tPosition = this.mesh.geometry.attributes.position.count;
-    const nPosition = Math.sqrt(tPosition);
+    const tPosition = this.mesh.geometry.attributes.position.count
+    const nPosition = Math.sqrt(tPosition)
     const nPositionN = Math.sqrt(
       neighbor.mesh.geometry.attributes.position.count
-    );
+    )
     if (nPosition !== nPositionN) {
-      console.error(
-        "resolveSeamX only implemented for geometries of same size"
-      );
+      console.error("resolveSeamX only implemented for geometries of same size")
       return
     }
     for (let i = nPosition - 1; i < tPosition; i += nPosition) {
       this.mesh.geometry.attributes.position.setZ(
         i,
-        neighbor.mesh.geometry.attributes.position.getZ(
-          i - nPosition + 1
-        )
+        neighbor.mesh.geometry.attributes.position.getZ(i - nPosition + 1)
       )
     }
   }
@@ -262,18 +263,18 @@ class Tile {
     const neighY = cache[this.keyNeighY()]
     const neighX = cache[this.keyNeighX()]
     if (this.seamY === false && neighY && neighY.mesh) {
-      this.resolveSeamY(neighY);
+      this.resolveSeamY(neighY)
       this.seamY = true
       worked = true
     }
     if (this.seamX === false && neighX && neighX.mesh) {
-      this.resolveSeamX(neighX);
+      this.resolveSeamX(neighX)
       this.seamX = true
       worked = true
     }
     if (worked) {
-      this.mesh.geometry.attributes.position.needsUpdate = true;
-      this.mesh.geometry.computeVertexNormals();
+      this.mesh.geometry.attributes.position.needsUpdate = true
+      this.mesh.geometry.computeVertexNormals()
     }
   }
 }
