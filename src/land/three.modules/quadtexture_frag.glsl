@@ -50,12 +50,13 @@ void main() {
 
   #ifdef USE_MAP
 
-  vec4 texelColor = texture2D(mapNW, vUv);
-  // vec4 texelColor = vec4(vUv, vUv);
-
+  vec4 colorSW = mix(mix(texture2D(mapSW, vUv * 2.), vec4(0.), step(0.5, vUv.x)), vec4(0.), step(0.5, vUv.y));
+  vec4 colorNW = mix(mix(texture2D(mapNW, vUv * 2. + vec2(0., -1.)), vec4(0.), step(0.5, vUv.x)), vec4(0.), 1. - step(0.5, vUv.y));
+  vec4 colorSE = mix(mix(texture2D(mapSE, vUv * 2. + vec2(-1., 0.)), vec4(0.), 1. - step(0.5, vUv.x)), vec4(0.), step(0.5, vUv.y));
+  vec4 colorNE = mix(mix(texture2D(mapNE, vUv * 2. + vec2(-1., -1.)), vec4(0.), 1. - step(0.5, vUv.x)), vec4(0.), 1. - step(0.5, vUv.y));
 
   // texelColor = mapTexelToLinear(texelColor);
-  diffuseColor *= texelColor;
+  diffuseColor *= colorSW + colorNW + colorNE + colorSE;
 
   #endif
 

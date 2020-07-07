@@ -1,18 +1,15 @@
 import getPixels from 'get-pixels'
-import ndarray from 'ndarray'
 import {
   PlaneBufferGeometry,
   Mesh,
-  MeshPhongMaterial,
   MeshNormalMaterial,
   TextureLoader,
-  Vector3
+  Vector3,
 } from 'three'
+import QuadTextureMaterial from '../three.modules/QuadTextureMaterial'
 
-// const tileMaterial = new MeshPhongMaterial({wireframe: false})
 const tileMaterial = new MeshNormalMaterial({wireframe: true})
 const baseTileSize = 500.
-const loader = new TextureLoader()
 
 class Utils {
   static long2tile (lon, zoom) {
@@ -181,13 +178,18 @@ class Tile {
     this.geometry = geometry
   }
 
+  childrens() {
+    return [
+      new Tile(this.z + 1, this.x * 2, this.y * 2),
+      new Tile(this.z + 1, this.x * 2, this.y * 2 + 1),
+      new Tile(this.z + 1, this.x * 2 + 1, this.y * 2),
+      new Tile(this.z + 1, this.x * 2 + 1, this.y * 2 + 1),
+    ]
+  }
+
   buildMaterial() {
-    return new Promise((resolve, reject) => {
-      loader.load(this.mapUrlMapbox(), map => resolve(new MeshPhongMaterial({
-        map
-      })))
-    })
-    // return new MeshNormalMaterial()
+    const urls = this.childrens().map(tile => tile.mapUrlMapbox())
+    return QuadTextureMaterial(urls)
   }
 
   buildmesh() {

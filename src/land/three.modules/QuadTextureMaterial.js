@@ -1,6 +1,7 @@
 import {
   ShaderMaterial,
-  TextureLoader
+  TextureLoader,
+  UniformsLib,
 } from 'three'
 import vertexShader from './quadtexture_vert.glsl'
 import fragmentShader from './quadtexture_frag.glsl'
@@ -8,15 +9,26 @@ import fragmentShader from './quadtexture_frag.glsl'
 const loader = new TextureLoader()
 
 const QuadTextureMaterial = (urls) => {
-  return new ShaderMaterial({
-    uniforms: {
-      mapNW: loader.load(urls[0]),
-      mapSW: loader.load(urls[1]),
-      mapNE: loader.load(urls[2]),
-      mapSE: loader.load(urls[3]),
-    },
-    vertexShader,
-    fragmentShader,
+  return Promise.all(urls.map(url => loader.loadAsync(url))).then(maps => {
+    return new ShaderMaterial({
+      uniforms: {
+        mapNW: {value: maps[0]},
+        mapSW: {value: maps[1]},
+        mapNE: {value: maps[2]},
+        mapSE: {value: maps[3]},
+        ...UniformsLib.common,
+        ...UniformsLib.lights,
+        ...UniformsLib.fog,
+      },
+      vertexShader,
+      fragmentShader,
+      defines: {
+        USE_MAP: true,
+        USE_UV: true,
+      },
+      lights: true,
+      fog: true,
+    })
   })
 }
 
