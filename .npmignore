@@ -1,0 +1,11 @@
+config
+scripts
+public
+.env
+.env.example
+src/example
+build
+.prettierrc.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
