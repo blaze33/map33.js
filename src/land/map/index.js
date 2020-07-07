@@ -9,7 +9,7 @@ import {
 import QuadTextureMaterial from '../three.modules/QuadTextureMaterial'
 
 const tileMaterial = new MeshNormalMaterial({wireframe: true})
-const baseTileSize = 500.
+const baseTileSize = 600.
 
 class Utils {
   static long2tile (lon, zoom) {

@@ -65,6 +65,7 @@ const stats = new Stats();
 document.body.appendChild(stats.dom);
 
 const controls = new MapControls(camera, renderer.domElement);
+controls.maxPolarAngle = Math.PI * 0.3
 window.controls = controls
 
 var axesHelper = new AxesHelper(2000)
@@ -80,16 +81,17 @@ dirLight.position.set(10000, 10000, 10000)
 scene.add(ambientLight)
 scene.add(dirLight)
 
-const grid = new InfiniteGridHelper(100, 500);
+const grid = new InfiniteGridHelper(50, 300);
 scene.add(grid);
 
 // let position = [46.5763, 7.9904]
 // let position = [45.8671, 7.3087]
 let position = [45.916216, 6.860973];
 
-const map = new Map(scene, camera, position, 2, 11)
+const map = new Map(scene, camera, position, 3, 11)
 window.map = map
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
+window.mapPicker = mapPicker
 console.log(map)
 
 let lastTimestamp = 0;
