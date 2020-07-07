@@ -61,7 +61,6 @@ export class TopButtonContent extends Component {
   }
   submitForm(event) {
     event.preventDefault()
-    alert(JSON.stringify(this.state))
     this.setState({waiting: true})
     const data = {
       email: this.state.email,
