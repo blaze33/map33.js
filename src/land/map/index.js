@@ -39,8 +39,8 @@ class Utils {
     };
     const offset = offsetAtZ(z);
     return {
-      x: ((x - center.x) - ((offset.x % 1) - 0.5) - (1 - (center.x % 1))) * tileSize,
-      y: (-(y - center.y) + ((offset.y % 1) - 0.5) + (1 - (center.y % 1))) * tileSize,
+      x: (x - center.x - (offset.x % 1) + (center.x % 1)) * tileSize,
+      y: (-y + center.y + (offset.y % 1) - (center.y % 1)) * tileSize,
       z: 0
     }
   }
