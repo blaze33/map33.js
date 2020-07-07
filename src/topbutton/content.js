@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import "react-popupbox/dist/react-popupbox.css"
 import styled from "styled-components"
 
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -86,7 +85,7 @@ export class TopButtonContent extends Component {
   }
   render() {
     return (
-      <div style={{ padding: "18px" }}>
+      <div style={{ padding: "18px", maxWidth: "500px" }}>
         <h2 class="font-weight-bold">Get the latest news from Openbloc</h2>
         <p class="my-4">
           Web, entrepreneurship, tech and open source topics straight to your
