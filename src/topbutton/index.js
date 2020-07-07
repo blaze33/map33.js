@@ -53,9 +53,7 @@ const ButtonLogo = styled.img`
 `
 
 export class TopButton extends Component {
-  submitForm(event) {
 
-  }
   openPopupbox() {
     const content = (<TopButtonContent />)
     PopupboxManager.open({
