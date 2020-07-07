@@ -6,7 +6,7 @@ import {
   TextureLoader,
   Vector3,
 } from 'three'
-import QuadTextureMaterial from '../three.modules/QuadTextureMaterial'
+import QuadTextureMaterial from './material/QuadTextureMaterial'
 
 const tileMaterial = new MeshNormalMaterial({wireframe: true})
 const baseTileSize = 600.

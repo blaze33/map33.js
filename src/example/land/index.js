@@ -21,7 +21,7 @@ import {
 
 import InfiniteGridHelper from "./three.modules/InfiniteGridHelper";
 
-import {Map, MapPicker} from './map'
+import {Map, MapPicker} from '../..'
 
 import {WindowResize} from './three.modules/WindowResize'
 
