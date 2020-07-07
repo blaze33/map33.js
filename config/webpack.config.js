@@ -487,7 +487,7 @@ module.exports = function(webpackEnv) {
             },
             {
               test: /\.(glsl|vert|frag)$/,
-              loader: 'webpack-glsl-loader'
+              loader: 'raw-loader'
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.

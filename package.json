@@ -5,6 +5,7 @@
   "dependencies": {
     "dem2mesh": "^0.1.2",
     "get-pixels": "^3.3.2",
+    "raw-loader": "^4.0.1",
     "stats.js": "^0.17.0",
     "three": "0.118.3"
   },
@@ -66,7 +67,6 @@
     "url-loader": "2.3.0",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
-    "webpack-glsl-loader": "^1.0.1",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
