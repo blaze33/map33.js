@@ -85,10 +85,12 @@ export class TopButtonContent extends Component {
   render() {
     return (
       <div style={{ padding: "18px", maxWidth: "500px" }}>
-        <h2 class="font-weight-bold">Get the latest news from Openbloc</h2>
+        <h3 class="font-weight-bold">map33.js is a JavaScript library to build 3D maps</h3>
         <p class="my-4">
-          Web, entrepreneurship, tech and open source topics straight to your
-          Inbox.
+          Made with three.js by Openbloc
+        </p>
+        <p class="my-4">
+          Subscribe to get the latest news!
         </p>
         <Form
           id="subscribe-form"
