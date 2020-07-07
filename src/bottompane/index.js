@@ -146,7 +146,7 @@ export class BottomPane extends Component {
           </Form.Group>
         </Row>
         <Row>
-          <GitHubButton type="stargazers" namespace="blaze33" repo="map33" />
+          <GitHubButton type="stargazers" namespace="blaze33" repo="map33.js" />
           <TwitterButton href="https://twitter.com/intent/follow?region=follow_link&screen_name=maxmre&tw_p=followbutton"
             target="_blank">
             <i></i> Follow @maxmre
