@@ -79,7 +79,7 @@ export class TopButton extends Component {
         <ButtonLeft height={30} />
         <ButtonCenter height={30}>
           <ButtonLogo src={OpenblocLogo} alt="Openbloc Logo"></ButtonLogo>
-          <span style={{verticalAlign: 'inherit'}}>Openbloc</span>
+          <span style={{verticalAlign: 'inherit'}}>Openbloc | map33.js</span>
         </ButtonCenter>
         <ButtonRight height={30} />
       </Wrapper>
