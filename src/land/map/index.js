@@ -125,8 +125,12 @@ class Tile {
     return `https://c.tile.openstreetmap.org/${this.z}/${this.x}/${this.y}.png`
   }
 
+  _mapUrlMapbox(z, x, y, mapboxToken) {
+    return `https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg80?access_token=${mapboxToken}`
+  }
+
   mapUrlMapbox() {
-    return `https://api.mapbox.com/v4/mapbox.satellite/${this.z}/${this.x}/${this.y}@2x.jpg80?access_token=${this.mapboxToken}`
+    return this._mapUrlMapbox(this.z, this.x, this.y, this.mapboxToken)
   }
 
   computeElevation(pixels) {
