@@ -1,3 +1,4 @@
+export default `
 #define PHONG
 
 uniform vec3 diffuse;
@@ -90,3 +91,4 @@ void main() {
 	#include <dithering_fragment>
 
 }
+`
