@@ -90,6 +90,12 @@ class MapPicker {
     this.computeWorldPosition(event)
     this.map.addFromPosition(this.position.x, this.position.y)
   }
+
+  go(lat, lon) {
+    this.map.clean()
+    this.map.geoLocation = [lat, lon]
+    this.map.init()
+  }
 }
 
 class Tile {
@@ -302,7 +308,7 @@ class Map {
 
   init() {
     this.center = Utils.geo2tile(this.geoLocation, this.zoom)
-    console.log({center: this.center})
+    console.log({loc: this.geoLocation, center: this.center})
     const tileOffset = Math.floor(this.nTiles / 2)
 
     for (let i = 0; i < this.nTiles; i++) {
@@ -346,8 +352,16 @@ class Map {
     }).then(() => {
       Object.values(this.tileCache).forEach(tile => tile.resolveSeams(this.tileCache))
     })
+  }
 
-
+  clean() {
+    Object.values(this.tileCache).forEach(tile => {
+      this.scene.remove(tile.mesh)
+      tile.mesh.geometry.dispose();
+      ['mapSW', 'mapNW', 'mapSE', 'mapNE'].forEach(key => tile.mesh.material.uniforms[key].value.dispose())
+      tile.mesh.material.dispose()
+    })
+    this.tileCache = {}
   }
 }
 

@@ -110,3 +110,5 @@ var mainLoop = (timestamp) => {
 mainLoop(0);
 
 WindowResize(renderer, camera)
+
+export {mapPicker}

@@ -11,6 +11,7 @@
     "get-pixels": "^3.3.2",
     "raw-loader": "^4.0.1",
     "react-bootstrap": "^1.1.0",
+    "react-github-button": "^0.1.11",
     "react-popupbox": "^2.0.8",
     "stats.js": "^0.17.0",
     "styled-components": "^5.1.1",
