@@ -1,6 +1,6 @@
 {
   "name": "map33",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "license": "MIT",
   "source": "src/index.js",
@@ -8,10 +8,8 @@
   "module": "dist/map33.module.js",
   "unpkg": "dist/map33.umd.js",
   "dependencies": {
-    "get-pixels": "^3.3.2"
-  },
-  "peerDependencies": {
-    "three": ">=0.118"
+    "get-pixels": "^3.3.2",
+    "three": "^0.118.3"
   },
   "resolutions": {
     "styled-components": "^5"
