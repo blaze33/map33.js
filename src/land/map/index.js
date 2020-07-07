@@ -181,7 +181,7 @@ class Tile {
         i,
         this.elevation[
           Math.round(Math.round(x * ratio) * nElevation + y * ratio)
-        ] * 0.035
+        ] * 0.045
       )
     }
     geometry.computeVertexNormals()
@@ -292,9 +292,10 @@ class Tile {
 }
 
 class Map {
-  constructor (scene, camera, geoLocation, nTiles, zoom=10, options) {
+  constructor (scene, camera, controls, geoLocation, nTiles, zoom=10, options) {
     this.scene = scene
     this.camera = camera
+    this.controls = controls
     this.geoLocation = geoLocation
     this.nTiles = nTiles
     this.zoom = zoom

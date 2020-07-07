@@ -15,6 +15,7 @@ import Col from "react-bootstrap/Col"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons"
+import { faSync } from "@fortawesome/free-solid-svg-icons"
 
 import {mapPicker} from '../land'
 
@@ -71,7 +72,8 @@ export class BottomPane extends Component {
     super()
     this.state ={
       lat: mapPicker.map.geoLocation[0],
-      lon: mapPicker.map.geoLocation[1]
+      lon: mapPicker.map.geoLocation[1],
+      rotate: true
     }
   }
 
@@ -81,6 +83,11 @@ export class BottomPane extends Component {
 
   handleLon(event) {
     this.setState({lon: event.target.value})
+  }
+
+  handleRotate(event) {
+    mapPicker.map.controls.autoRotate = event.target.checked
+    this.setState({rotate: event.target.checked})
   }
 
   go() {
@@ -96,6 +103,20 @@ export class BottomPane extends Component {
         <Row>
           <Form.Group as={Col} sm={6} md={5}>
             <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Checkbox
+                  label={(
+                    <FontAwesomeIcon
+                      icon={faSync}
+                      size="lg"
+                      className="mr-2"
+                    />
+                  )}
+                  aria-label="Camera rotation"
+                  checked={this.state.rotate}
+                  onChange={this.handleRotate.bind(this)}
+                />
+              </InputGroup.Prepend>
               <Form.Control
                 placeholder="Latitude"
                 aria-label="Latitude"

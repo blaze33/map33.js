@@ -65,6 +65,7 @@ const stats = new Stats();
 document.body.appendChild(stats.dom);
 
 const controls = new MapControls(camera, renderer.domElement);
+controls.autoRotate = true
 controls.maxPolarAngle = Math.PI * 0.3
 window.controls = controls
 
@@ -88,7 +89,7 @@ scene.add(grid);
 // let position = [45.8671, 7.3087]
 let position = [45.916216, 6.860973];
 
-const map = new Map(scene, camera, position, 3, 11)
+const map = new Map(scene, camera, controls, position, 3, 11)
 window.map = map
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
 window.mapPicker = mapPicker
