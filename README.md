@@ -1,3 +1,67 @@
+<div align="center">
+
+  <h1>
+    <code>map33.js</code>
+  </h1>
+
+<strong>A JavaScript library to build 3D maps with
+ <a href="https://threejs.org/">three.js</a></strong>
+
+  <p>
+    <a href="https://www.npmjs.com/package/map33"><img alt="npm version" src="https://img.shields.io/npm/v/map33"></a>
+  </p>
+
+  <img alt="from heightmap to 3D terrain" src="https://repository-images.githubusercontent.com/277697064/2cd77d00-c05e-11ea-9752-7a4ff3fe3a03">
+
+</div>
+
+[**Live demo**](https://map33.openbloc.com) (you can double click to add missing tiles)
+
+### Installation
+
+```
+npm install map33
+```
+
+alternatively:
+
+```
+yarn add map33
+```
+
+### Presentation and Usage
+
+[Map33.js](https://github.com/blaze33/map33.js) takes two slippy maps tilesets, one to fetch elevation data tiles, the other to texture the meshes built from said elevation data (currently tried with OSM and Mabox tiles but any XYZ tileserver will do it).
+
+```js[**Live demo**](https://map33.openbloc.com) (you can double click to add missing tiles)
+
+import { Map, MapPicker } from 'map33' // now I see I can't call this export Map, TODO ;)
+
+const position = [45.916216, 6.860973]
+const map = new Map(scene, camera, controls, position, 3, 11)
+const mapPicker = new MapPicker(camera, map, renderer.domElement)
+mapPicker.go(-45, 128)
+```
+
+### Background
+
+Long story short, I took what I liked most about [droneWorld](https://droneworld.openbloc.com) (cf. https://discourse.threejs.org/t/3d-world-engine-droneworld-prototype/1501), ie. making 3D terrain and started from scratch to build a library that, hopefully, will be much cleaner in order to build upon and reuse.
+
+### Interesting references:
+
+https://github.com/w3reality/three-geo
+
+https://blog.mapbox.com/bringing-3d-terrain-to-the-browser-with-three-js-410068138357
+
+## License and attributions
+
+The map library code is MIT licensed.
+
+InfiniteGridHelper.js used by the example is made by [Fyrestar](https://mevedia.com) ([Github repo](https://github.com/Fyrestar/THREE.InfiniteGridHelper))
+
+
+<hr />
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
