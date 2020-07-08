@@ -1,3 +1,9 @@
+/**
+ * @file Infinite anti-aliased grid.
+ * @author Fyrestar https://mevedia.com (https://github.com/Fyrestar/THREE.InfiniteGridHelper)
+ * @author Blaze33 replaced global THREE by es6 import statements.
+ */
+
 import {
   Color,
   PlaneBufferGeometry,
