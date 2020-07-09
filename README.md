@@ -31,9 +31,11 @@ yarn add map33
 
 ### Presentation and Usage
 
-[Map33.js](https://github.com/blaze33/map33.js) takes two slippy maps tilesets, one to fetch elevation data tiles, the other to texture the meshes built from said elevation data (currently tried with OSM and Mabox tiles but any XYZ tileserver will do it).
+[Map33.js](https://github.com/blaze33/map33.js) takes two slippy maps tilesets, one to fetch elevation data tiles, the other to texture the meshes built from said elevation data (currently tried with OSM and Mapbox tiles but any XYZ tileserver will do it).
 
-```js[**Live demo**](https://map33.openbloc.com) (you can double click to add missing tiles)
+[**Live demo**](https://map33.openbloc.com) (you can double click to add missing tiles)
+
+```javascript
 
 import { Map, MapPicker } from 'map33' // now I see I can't call this export Map, TODO ;)
 
