@@ -90,7 +90,7 @@ scene.add(grid);
 let position = [45.916216, 6.860973];
 
 const options = {
-  mapboxToken: "pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w"
+  mapboxToken: process.env.REACT_APP_MAPBOX_TOKEN
 }
 const map = new Map(scene, camera, controls, position, 3, 11, options)
 window.map = map
