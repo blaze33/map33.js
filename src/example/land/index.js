@@ -89,7 +89,10 @@ scene.add(grid);
 // let position = [45.8671, 7.3087]
 let position = [45.916216, 6.860973];
 
-const map = new Map(scene, camera, controls, position, 3, 11)
+const options = {
+  mapboxToken: "pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w"
+}
+const map = new Map(scene, camera, controls, position, 3, 11, options)
 window.map = map
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
 window.mapPicker = mapPicker

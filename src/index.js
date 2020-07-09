@@ -98,18 +98,17 @@ class MapPicker {
 }
 
 class Tile {
-  constructor(z, x, y, size = baseTileSize) {
-    this.size = size
+  constructor(map, z, x, y, size = baseTileSize) {
+    this.map = map
     this.z = z
     this.x = x
     this.y = y
+    this.size = size
     this.baseURL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium"
     this.shape = null
     this.elevation = null
     this.seamX = false
     this.seamY = false
-    this.mapboxToken =
-      "pk.eyJ1IjoibWF4bXJlIiwiYSI6ImNrY2F5bHk1czBkdXUydHVuNTJoNmxkczEifQ.tzMKMH4ElqyY-xR77zRz_w"
   }
 
   key() {
@@ -135,7 +134,7 @@ class Tile {
   }
 
   mapUrlMapbox() {
-    return this._mapUrlMapbox(this.z, this.x, this.y, this.mapboxToken)
+    return this._mapUrlMapbox(this.z, this.x, this.y, this.map.options.mapboxToken)
   }
 
   computeElevation(pixels) {
@@ -189,10 +188,10 @@ class Tile {
 
   childrens() {
     return [
-      new Tile(this.z + 1, this.x * 2, this.y * 2),
-      new Tile(this.z + 1, this.x * 2, this.y * 2 + 1),
-      new Tile(this.z + 1, this.x * 2 + 1, this.y * 2),
-      new Tile(this.z + 1, this.x * 2 + 1, this.y * 2 + 1),
+      new Tile(this.map, this.z + 1, this.x * 2, this.y * 2),
+      new Tile(this.map, this.z + 1, this.x * 2, this.y * 2 + 1),
+      new Tile(this.map, this.z + 1, this.x * 2 + 1, this.y * 2),
+      new Tile(this.map, this.z + 1, this.x * 2 + 1, this.y * 2 + 1),
     ]
   }
 
@@ -313,7 +312,7 @@ class Map {
 
     for (let i = 0; i < this.nTiles; i++) {
       for (let j = 0; j < this.nTiles; j++) {
-        const tile = new Tile(this.zoom, this.center.x + i - tileOffset, this.center.y + j - tileOffset)
+        const tile = new Tile(this, this.zoom, this.center.x + i - tileOffset, this.center.y + j - tileOffset)
         this.tileCache[tile.key()] = tile
       }
     }
@@ -341,7 +340,7 @@ class Map {
       z
     } = Utils.position2tile(this.zoom, posX, posY, this.center, this.tileSize)
     console.log({x, y, z})
-    const tile = new Tile(this.zoom, x, y)
+    const tile = new Tile(this, this.zoom, x, y)
 
     if (tile.key() in this.tileCache) return
 
