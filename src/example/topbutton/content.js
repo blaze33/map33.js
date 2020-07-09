@@ -85,16 +85,16 @@ export class TopButtonContent extends Component {
   render() {
     return (
       <div style={{ padding: "18px", maxWidth: "500px" }}>
-        <h3 class="font-weight-bold">map33.js is a JavaScript library to build 3D maps</h3>
-        <p class="my-4">
-          Made with three.js by Openbloc
+        <h3 className="font-weight-bold">map33.js is a JavaScript library to build 3D maps</h3>
+        <p className="my-4">
+          Made by Openbloc with three.js
         </p>
-        <p class="my-4">
+        <p className="my-4">
           Subscribe to get the latest news!
         </p>
         <Form
           id="subscribe-form"
-          class="mailing-list my-4"
+          className="mailing-list my-4"
           onSubmit={this.submitForm.bind(this)}
         >
           <InputGroup className="mb-3">
