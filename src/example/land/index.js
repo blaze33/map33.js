@@ -21,7 +21,7 @@ import {
 
 import InfiniteGridHelper from "./three.modules/InfiniteGridHelper";
 
-import {Map, MapPicker} from '../..'
+import {Map, Source, MapPicker} from '../..'
 
 import {WindowResize} from './three.modules/WindowResize'
 
@@ -89,10 +89,9 @@ scene.add(grid);
 // let position = [45.8671, 7.3087]
 let position = [45.916216, 6.860973];
 
-const options = {
-  mapboxToken: process.env.REACT_APP_MAPBOX_TOKEN
-}
-const map = new Map(scene, camera, controls, position, 3, 11, options)
+// const source = new Source('mapbox', process.env.REACT_APP_MAPBOX_TOKEN)
+const source = new Source('maptiler', process.env.REACT_APP_MAPTILER_TOKEN)
+const map = new Map(scene, camera, source, position, 3, 11)
 window.map = map
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
 window.mapPicker = mapPicker

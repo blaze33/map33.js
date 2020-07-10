@@ -97,6 +97,47 @@ class MapPicker {
   }
 }
 
+class Source {
+  constructor(api, token, options) {
+    this.supportedApis = {
+      'osm': this.mapUrlOSM.bind(this),
+      'mapbox': this.mapUrlMapbox.bind(this),
+      'eox': this.mapUrlSentinel2Cloudless.bind(this),
+      'maptiler': this.mapUrlmapTiler.bind(this),
+    }
+    if (!(api in this.supportedApis)) {
+      throw new Error('Unknown source api');
+    }
+    this.api = api
+    this.token = token
+    this.options = options
+    console.log(this)
+  }
+
+  mapUrlOSM(z, x, y) {
+    return `https://c.tile.openstreetmap.org/${z}/${x}/${y}.png`
+  }
+
+  mapUrlMapbox(z, x, y) {
+    return `https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg80?access_token=${this.token}`
+  }
+
+  mapUrlSentinel2Cloudless(z, x, y) {
+    // cf. https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml
+    return `https://tiles.maps.eox.at/wmts?layer=s2cloudless_3857&style=default&tilematrixset=g&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=${z}&TileCol=${x}&TileRow=${y}`
+  }
+
+  mapUrlmapTiler(z, x, y) {
+    console.log(this)
+    return `https://api.maptiler.com/tiles/satellite/${z}/${x}/${y}.jpg?key=${this.token}`
+  }
+
+  mapUrl(z, x, y) {
+    return this.supportedApis[this.api](z, x, y)
+  }
+
+}
+
 class Tile {
   constructor(map, z, x, y, size = baseTileSize) {
     this.map = map
@@ -125,16 +166,8 @@ class Tile {
     return `${this.baseURL}/${this.z}/${this.x}/${this.y}.png`
   }
 
-  mapUrlOSM() {
-    return `https://c.tile.openstreetmap.org/${this.z}/${this.x}/${this.y}.png`
-  }
-
-  _mapUrlMapbox(z, x, y, mapboxToken) {
-    return `https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg80?access_token=${mapboxToken}`
-  }
-
-  mapUrlMapbox() {
-    return this._mapUrlMapbox(this.z, this.x, this.y, this.map.options.mapboxToken)
+  mapUrl() {
+    return this.map.source.mapUrl(this.z, this.x, this.y)
   }
 
   computeElevation(pixels) {
@@ -196,7 +229,7 @@ class Tile {
   }
 
   buildMaterial() {
-    const urls = this.childrens().map(tile => tile.mapUrlMapbox())
+    const urls = this.childrens().map(tile => tile.mapUrl())
     return QuadTextureMaterial(urls)
   }
 
@@ -290,10 +323,10 @@ class Tile {
 }
 
 class Map {
-  constructor (scene, camera, controls, geoLocation, nTiles, zoom=10, options) {
+  constructor (scene, camera, source, geoLocation, nTiles, zoom=10, options) {
     this.scene = scene
     this.camera = camera
-    this.controls = controls
+    this.source = source
     this.geoLocation = geoLocation
     this.nTiles = nTiles
     this.zoom = zoom
@@ -364,4 +397,4 @@ class Map {
   }
 }
 
-export {Map, MapPicker}
+export {Map, Source, MapPicker}
