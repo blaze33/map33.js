@@ -40,7 +40,7 @@ yarn add map33
 import { Map, Source, MapPicker } from 'map33' // now I see I can't call this export Map, TODO ;)
 
 const position = [45.916216, 6.860973]
-const source = new Source('maptiler', '<your_mapbox_token>')
+const source = new Source('maptiler', '<your_maptiler_token>')
 const map = new Map(scene, camera, source, position, 3, 11, options)
 const mapPicker = new MapPicker(camera, map, renderer.domElement)
 mapPicker.go(-45, 128)
