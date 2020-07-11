@@ -90,7 +90,7 @@ let position = [45.916216, 6.860973];
 
 // const source = new Source('mapbox', process.env.REACT_APP_MAPBOX_TOKEN)
 const source = new Source('maptiler', process.env.REACT_APP_MAPTILER_TOKEN)
-const map = new Map(scene, camera, source, position, 3, 11)
+const map = new Map(scene, camera, source, position, {nTiles: 3, zoom: 11})
 window.map = map
 const mapPicker = new MapPicker(camera, map, renderer.domElement, controls)
 window.mapPicker = mapPicker

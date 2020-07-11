@@ -8,7 +8,6 @@ import {
 import QuadTextureMaterial from './material/QuadTextureMaterial'
 
 const tileMaterial = new MeshNormalMaterial({wireframe: true})
-const baseTileSize = 600.
 
 class Utils {
   static long2tile (lon, zoom) {
@@ -138,12 +137,12 @@ class Source {
 }
 
 class Tile {
-  constructor(map, z, x, y, size = baseTileSize) {
+  constructor(map, z, x, y, size) {
     this.map = map
     this.z = z
     this.x = x
     this.y = y
-    this.size = size
+    this.size = size || this.map.options.tileSize
     this.baseURL = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium"
     this.shape = null
     this.elevation = null
@@ -190,8 +189,8 @@ class Tile {
     const geometry = new PlaneBufferGeometry(
       this.size,
       this.size,
-      this.shape[0] / 2,
-      this.shape[1] / 2
+      this.map.options.tileSegments,
+      this.map.options.tileSegments
     )
     const nPosition = Math.sqrt(geometry.attributes.position.count)
     const nElevation = Math.sqrt(this.elevation.length)
@@ -211,7 +210,7 @@ class Tile {
         i,
         this.elevation[
           Math.round(Math.round(x * ratio) * nElevation + y * ratio)
-        ] * 0.045
+        ] * this.map.options.zScale
       )
     }
     geometry.computeVertexNormals()
@@ -322,19 +321,34 @@ class Tile {
 }
 
 class Map {
-  constructor (scene, camera, source, geoLocation, nTiles, zoom=10, options) {
+  constructor (scene, camera, source, geoLocation, options={}) {
     this.scene = scene
     this.camera = camera
     this.source = source
     this.geoLocation = geoLocation
-    this.nTiles = nTiles
-    this.zoom = zoom
-    this.options = options
-    this.tileSize = baseTileSize
+
+    this.options = this.getOptions(options)
+    this.nTiles = this.options.nTiles
+    this.zoom = this.options.zoom
+    this.tileSize = this.options.tileSize
 
     this.tileCache = {};
 
     this.init()
+  }
+
+  defaultOptions = {
+    nTiles: 3,
+    zoom: 11,
+    tileSize: 600,
+    tileSegments: 100,
+    zScale: 0.045,
+  }
+
+  getOptions(providedOptions) {
+    const options = Object.assign({}, this.defaultOptions, providedOptions)
+    options.tileSegments = Math.min(256, Math.round(options.tileSegments))
+    return options
   }
 
   init() {
