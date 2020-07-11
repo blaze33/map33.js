@@ -24,20 +24,28 @@ const popover = (
     <Popover.Content>
       <ul>
         <li>
-          Elevation data: <a href="https://registry.opendata.aws/terrain-tiles/">
-            Terrain Tiles - Registry of Open Data on AWS</a>
+          Elevation data:{" "}
+          <a href="https://registry.opendata.aws/terrain-tiles/">
+            Terrain Tiles - Registry of Open Data on AWS
+          </a>
         </li>
         <li>
-          Satellite imagery: ® Maptiler
+          Satellite imagery:{" "}
+          <a href="https://maptiler.com/copyright/">©&nbsp;MapTiler</a>{" "}
+          <a href="https://www.openstreetmap.org/copyright">
+            ©&nbsp;OpenStreetMap
+          </a>
         </li>
         <li>
-          <a href="https://github.com/Fyrestar/THREE.InfiniteGridHelper">InfiniteGridHelper</a>:
-          <a href="https://mevedia.com">Fyrestar</a>
+          <a href="https://github.com/Fyrestar/THREE.InfiniteGridHelper">
+            InfiniteGridHelper
+          </a>
+          :{" "}<a href="https://mevedia.com">Fyrestar</a>
         </li>
       </ul>
     </Popover.Content>
   </Popover>
-);
+)
 
 export class Attributions extends Component {
   constructor() {
