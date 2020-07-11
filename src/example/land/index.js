@@ -25,7 +25,6 @@ import {Map, Source, MapPicker} from '../..'
 
 import {WindowResize} from './three.modules/WindowResize'
 
-// global.THREE = THREE
 const scene = new Scene();
 const camera = new PerspectiveCamera(
   75,
@@ -35,7 +34,7 @@ const camera = new PerspectiveCamera(
 );
 
 camera.up = new Vector3(0, 0, 1);
-camera.position.set(0, -1500, 1200);
+camera.position.set(0, -1000, 700);
 camera.rollAngle = 0;
 camera.updateMatrixWorld();
 camera.updateProjectionMatrix();
@@ -93,7 +92,7 @@ let position = [45.916216, 6.860973];
 const source = new Source('maptiler', process.env.REACT_APP_MAPTILER_TOKEN)
 const map = new Map(scene, camera, source, position, 3, 11)
 window.map = map
-const mapPicker = new MapPicker(camera, map, renderer.domElement)
+const mapPicker = new MapPicker(camera, map, renderer.domElement, controls)
 window.mapPicker = mapPicker
 console.log(map)
 

@@ -54,12 +54,13 @@ class Utils {
 }
 
 class MapPicker {
-  constructor(camera, map, domElement) {
+  constructor(camera, map, domElement, controls) {
     this.vec = new Vector3(); // create once and reuse
     this.position = new Vector3(); // create once and reuse
     this.camera = camera
     this.map = map
     this.domElement = domElement
+    this.controls = controls
 
     this.domElement.addEventListener('mousemove', this.onMouseMove.bind(this))
     this.domElement.addEventListener('dblclick', this.onMouseClick.bind(this))
@@ -111,7 +112,6 @@ class Source {
     this.api = api
     this.token = token
     this.options = options
-    console.log(this)
   }
 
   mapUrlOSM(z, x, y) {
@@ -128,7 +128,6 @@ class Source {
   }
 
   mapUrlmapTiler(z, x, y) {
-    console.log(this)
     return `https://api.maptiler.com/tiles/satellite/${z}/${x}/${y}.jpg?key=${this.token}`
   }
 

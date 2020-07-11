@@ -86,7 +86,7 @@ export class BottomPane extends Component {
   }
 
   handleRotate(event) {
-    mapPicker.map.controls.autoRotate = event.target.checked
+    mapPicker.controls.autoRotate = event.target.checked
     this.setState({rotate: event.target.checked})
   }
 
