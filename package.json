@@ -70,7 +70,7 @@
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-bootstrap": "^1.1.0",
-    "react-dev-utils": "^10.2.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.13.1",
     "react-github-button": "^0.1.11",
     "react-popupbox": "^2.0.8",
